@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Downloads Menus" lan="LAN_DLMENU_PLUGIN_NAME" version="1.0" date="2026-09-15" compatibility="2.3" installRequired="false">
+	<author name="Jimako" url="https://github.com/Jimako-e107-plugins" />
+	<summary lan="LAN_DLMENU_PLUGIN_SUMMARY">Menus and download statistics for the core Downloads plugin</summary>
+	<description lan="LAN_DLMENU_PLUGIN_DIZ">Adds a latest-downloads menu, a top-downloads menu and an admin view of the download request log. Requires the core Downloads plugin.</description>
+	<keywords>
+		<word>download</word>
+		<word>menu</word>
+		<word>statistics</word>
+	</keywords>
+	<category>content</category>
+	<adminLinks>
+		<link url="admin/admin_menus.php" description="LAN_DLMENU_ADMIN_MENUS_DIZ" primary="true">LAN_DLMENU_ADMIN_MENUS</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name="latest_amount">5</pref>
+		<pref name="latest_author">0</pref>
+		<pref name="latest_category">1</pref>
+		<pref name="latest_size">1</pref>
+		<pref name="latest_datestamp">1</pref>
+		<pref name="latest_requested">0</pref>
+		<pref name="latest_description">0</pref>
+		<pref name="latest_maxchars">0</pref>
+		<pref name="latest_adminlink">0</pref>
+		<pref name="top_amount">5</pref>
+		<pref name="top_author">0</pref>
+		<pref name="top_category">1</pref>
+		<pref name="top_size">1</pref>
+		<pref name="top_datestamp">1</pref>
+		<pref name="top_requested">0</pref>
+		<pref name="top_description">0</pref>
+		<pref name="top_maxchars">0</pref>
+		<pref name="top_adminlink">0</pref>
+	</pluginPrefs>
+</e107Plugin>
