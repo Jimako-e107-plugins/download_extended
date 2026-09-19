@@ -72,13 +72,24 @@ $style = !empty($parms['tablestyle']) ? preg_replace('/[^\w-]/', '', $parms['tab
 
 // --- data --------------------------------------------------------------
 
+// Class filtering matches the core download handler
+// (download/handlers/download_class.php:540-541): a listing is filtered on
+// download_visible and download_category_class only.
+//
+// download_class is NOT a visibility column - it is the permission to fetch
+// the file, and core checks it in exactly one place, at download time
+// (download_class.php:963). Filtering a menu on it hides every file whose
+// download is members-only from every guest, even when the file is set
+// visible to everyone. Nothing is leaked by dropping it: the download itself
+// is still gated by core.
+
 $where = ($cat > 0) ? ' AND d.download_category = ' . $cat : '';
 
 // rolling window, not a calendar week/month
 $where .= ($days > 0) ? ' AND dr.download_request_datestamp >= ' . (time() - ($days * 86400)) : '';
 
 $qry = "SELECT d.download_id, d.download_name, d.download_sef, d.download_url,
-		d.download_author, d.download_datestamp, d.download_filesize, d.download_description,
+		d.download_author, d.download_datestamp, d.download_filesize,
 		d.download_requested, d.download_mirror_type, d.download_category,
 		dc.download_category_id, dc.download_category_name, dc.download_category_sef,
 		COUNT(dr.download_request_id) AS period_count
@@ -87,7 +98,6 @@ $qry = "SELECT d.download_id, d.download_name, d.download_sef, d.download_url,
 	INNER JOIN #download_requests AS dr ON dr.download_request_download_id = d.download_id
 	WHERE d.download_active > 0
 		AND d.download_visible REGEXP '" . e_CLASS_REGEXP . "'
-		AND d.download_class REGEXP '" . e_CLASS_REGEXP . "'
 		AND dc.download_category_class REGEXP '" . e_CLASS_REGEXP . "'
 		" . $where . "
 	GROUP BY d.download_id
@@ -109,11 +119,7 @@ while ($row = $sql->fetch())
 
 // --- render ------------------------------------------------------------
 
-$sc = e107::getScBatch('download', true);
-
-// makes $..._WRAPPER['item'] from the template file apply
-$sc->wrapper('top_menu/item');
-
+$sc   = e107::getScBatch('download', true);
 $text = $tp->parseTemplate(varset($template['start'], ''), true, $sc);
 
 foreach ($rows as $row)

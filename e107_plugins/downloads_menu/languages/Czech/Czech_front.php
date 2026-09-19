@@ -13,5 +13,6 @@ return array(
 
 	'LAN_DLMENU_LATEST'              => "Nejnovější soubory",
 	'LAN_DLMENU_TOP'                 => "Nejstahovanější soubory",
+	'LAN_DLMENU_READ_MORE'           => "Číst dále",
 
 );
