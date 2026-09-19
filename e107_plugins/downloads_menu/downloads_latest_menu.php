@@ -81,7 +81,6 @@ $qry = "SELECT d.download_id, d.download_name, d.download_sef, d.download_url,
 	LEFT JOIN #download_category AS dc ON d.download_category = dc.download_category_id
 	WHERE d.download_active > 0
 		AND d.download_visible REGEXP '" . e_CLASS_REGEXP . "'
-		AND d.download_class REGEXP '" . e_CLASS_REGEXP . "'
 		AND dc.download_category_class REGEXP '" . e_CLASS_REGEXP . "'
 		" . $where . "
 	ORDER BY d.download_datestamp DESC
@@ -104,6 +103,8 @@ while ($row = $sql->fetch())
 
 $sc = e107::getScBatch('download', true);
 
+$scVars = $sc->getVars();
+
 // makes $..._WRAPPER['item'] from the template file apply
 $sc->wrapper('latest_menu/item');
 
@@ -116,5 +117,7 @@ foreach ($rows as $row)
 }
 
 $text .= $tp->parseTemplate(varset($template['end'], ''), true, $sc);
+
+$sc->setVars($scVars);
 
 e107::getRender()->tablerender($caption, $text, $style);
